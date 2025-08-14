@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Get instant portfolio - Powerfull ChatBOT</title>
+  <link rel="icon" type="image/x-icon" href="activateashiq.png">
+
+
+
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    const PASSWORD = "devOfficeBD"; // আপনার পাসওয়ার্ড
+
+    // Check sessionStorage
+    if(sessionStorage.getItem('access_granted') !== 'true') {
+        const userInput = prompt("Enter the password to access this page:");
+        if(userInput !== PASSWORD) {
+            alert("Incorrect password! You cannot access this page.");
+            window.location.href = "no-access.html"; // Redirect if wrong
+            return;
+        }
+        // Correct password → save in sessionStorage
+        sessionStorage.setItem('access_granted', 'true');
+    }
+
+    // Disable right click & context menu
+    document.addEventListener('contextmenu', function(e) {
+        e.preventDefault();
+        alert("Right click is disabled on this page.");
+    });
+
+    // Disable specific keyboard shortcuts
+    document.addEventListener('keydown', function(e) {
+        if(e.key === "F12" ||
+           (e.ctrlKey && e.shiftKey && (e.key === "I" || e.key === "J" || e.key === "C")) ||
+           (e.ctrlKey && e.key === "U") ||
+           (e.ctrlKey && e.shiftKey && e.key === "K")) {
+            e.preventDefault();
+            alert("This action is disabled!");
+        }
+    });
+});
+</script>
+
+
+
+
+
+
+
+
+<style>
+:root { --bg:#0b1220; --panel:#111a2b; --muted:#8aa0b2; --text:#e6edf3; --accent:#6ca4ff; --shadow:0 10px 30px rgba(0,0,0,.25); --radius:16px;}
+*{box-sizing:border-box;}
+body{margin:0;font-family:ui-sans-serif, system-ui, Segoe UI, Roboto, Helvetica, Arial; background:var(--bg); color:var(--text);}
+.container{max-width:1200px;margin:0 auto;padding:24px;display:grid;gap:20px;grid-template-columns:280px 1fr;}
+@media(max-width:900px){.container{grid-template-columns:1fr;}}
+.card{background:var(--panel); border-radius:var(--radius);box-shadow:var(--shadow);}
+.sidebar{padding:18px;position:sticky;top:16px;height:fit-content;}
+.sidebar h2{margin:0 0 12px;font-size:18px;font-weight:700;}
+.sidebar .tip{color:var(--muted);font-size:13px;line-height:1.5;}
+.badge{display:inline-block;padding:4px 8px;border-radius:12px;background:rgba(108,164,255,.15);color:var(--accent);font-size:12px;margin:4px 6px 0 0;}
+.chat{display:flex;flex-direction:column;height:calc(100vh - 120px);min-height:520px;justify-content: space-between;}
+.chat-header{padding:18px;border-bottom:1px solid rgba(255,255,255,.06);display:flex;align-items:center;justify-content:space-between;}
+.title{font-weight:800;letter-spacing:.2px;}
+.pill{font-size:12px;color:var(--muted);}
+.chat-body{padding:18px;overflow:auto;display:flex;flex-direction:column;gap:12px;}
+.msg{max-width:92%;line-height:1.55;position:relative;white-space:pre-line;}
+.user{align-self:flex-end;background:rgba(108,164,255,.18);border-radius:14px;padding:12px 14px;}
+.bot{align-self:flex-start;background:rgba(255,255,255,.03);border-radius:14px;padding:12px 14px;}
+.muted{color:var(--muted);font-size:13px;}
+.chat-footer{padding:12px;display:flex;gap:10px;border-top:1px solid rgba(255,255,255,.06);}
+.input{flex:1;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);border-radius:12px;padding:12px 14px;color:var(--text);outline:none;}
+.btn{background:linear-gradient(135deg,var(--accent),#9ad0ff);color:#07203b;border:0;border-radius:12px;padding:12px 16px;font-weight:700;cursor:pointer;box-shadow:0 6px 18px rgba(108,164,255,.3);}
+.btn:disabled{opacity:.6;cursor:not-allowed;}
+.loader{width:28px;height:28px;border-radius:50%;border:3px solid rgba(255,255,255,.12);border-top-color:var(--accent);animation:spin 1s linear infinite;margin-right:8px;}
+@keyframes spin{to{transform:rotate(360deg);}}
+.flex{display:flex;align-items:center;gap:8px;}
+.copy-btn{background:var(--accent);color:#07203b;border:none;border-radius:6px;padding:4px 8px;font-size:12px;cursor:pointer;margin-top:8px;display:inline-block;}
+.devs-my-about *{
+  margin: 0px;
+}
+.devs-my-about{text-align:center;border: 1px solid #07305b; border-radius: 10px; padding: 20px;margin-bottom: 15px;}
+.devs-my-about img{width: 80px; height: 80px; object-fit: cover;border-radius: 50%;margin-bottom: 10px;}
+.devs-my-about .contact-btn{
+  text-decoration: none;
+  color: #6ca4ff;
+  background-color: transparent;
+  border: 1px solid #6ca4ff;
+  border-radius: 5px;
+  padding: 5px 15px 7px 15px;
+  display: inline-block;
+  line-height: 1em;
+  margin-top: 10px;
+  text-transform: uppercase;
+  transition: 0.3s;
+}
+.devs-my-about .contact-btn:hover{
+  text-decoration: none;
+  color: #fff;
+  background-color: #6ca4ff;
+  border: 1px solid #6ca4ff;
+  border-radius: 5px;
+  padding: 5px 15px 7px 15px;
+  display: inline-block;
+  line-height: 1em;
+  margin-top: 10px;
+  text-transform: uppercase;
+  transition: 0.3s;
+}
+.devs-my-about:hover{
+  border: 1px solid #6ca4ff;
+  
+}
+html,body{
+  overflow-y: hidden;
+}
+</style>
+</head>
+<body>
+<div class="container">
+<aside class="sidebar card">
+<div class="devs-my-about">
+  <img src="ashiq.png" alt="">
+  <h3>Ashiq Hosen</h3>
+  <a class="contact-btn" href="http://wa.me/8801728827863" target="_blank" rel="noopener noreferrer">Contact</a>
+</div>
+<h2>How to ask</h2>
+<div class="tip">Ask by plugin, type, industry, or site. Add 'show' for full details.
+<div class="badge">membership</div>
+<div class="badge">learndash</div>
+<div class="badge">education</div>
+<div class="badge">devsoffice.com</div>
+</div>
+</aside>
+<main class="card chat" id="app">
+<div class="chat-header">
+<div><div class="title">Portfolio Finder</div>
+<div class="pill">Fuzzy & related matching</div></div>
+</div>
+<div class="chat-body" id="chat"></div>
+<div class="chat-footer">
+<input id="q" class="input" placeholder="Type plugin, site, type, or industry..."/>
+<button class="btn" id="send">Send</button>
+</div>
+</main>
+</div>
+
+<script type="module">
+import {projects} from './projects.js';
+import {synonyms} from './synonyms.js';
+
+const state = {projects, synonyms, memory:[]};
+const chat = document.getElementById('chat');
+const input = document.getElementById('q');
+const sendBtn = document.getElementById('send');
+
+const humanResponses = [
+  "Hmm, found these projects for you:",
+  "Here’s what I could find:",
+  "I think these match your request:",
+  "Take a look at these:",
+  "These projects seem relevant:"
+];
+
+function addMsg(content,who='bot'){
+  const prevTyping=document.getElementById('typing'); if(prevTyping) prevTyping.remove();
+  const el=document.createElement('div'); el.className='msg '+who;
+  const div=document.createElement('div'); div.innerHTML=content;
+  const btn=document.createElement('button'); btn.className='copy-btn'; btn.textContent='Copy';
+  btn.addEventListener('click',()=>{navigator.clipboard.writeText(content.replace(/<br>/g,'\n')); btn.textContent='Copied!'; setTimeout(()=>{btn.textContent='Copy';},1000);});
+  el.appendChild(div); el.appendChild(btn); chat.appendChild(el); chat.scrollTop=chat.scrollHeight;
+}
+
+function addTyping(){const el=document.createElement('div'); el.className='msg bot'; el.id='typing'; el.innerHTML='<div class="flex"><div class="loader"></div><span class="muted">Typing…</span></div>'; chat.appendChild(el); chat.scrollTop=chat.scrollHeight;}
+
+function expandSynonyms(token){for(const key in synonyms){if(synonyms[key].includes(token)) return key;}return token;}
+
+function fuzzyMatch(str,token){str=str.toLowerCase(); token=token.toLowerCase(); if(str.includes(token)) return true; return str.includes(token.slice(0,Math.floor(token.length/2)));}
+
+function searchProjects(query){
+  const tokens=query.toLowerCase().split(/\s+/).map(expandSynonyms);
+  const showDetails=tokens.includes('show');
+  let matched=state.projects.filter(proj=>tokens.some(tok=>fuzzyMatch(proj.name,tok) || proj.plugins.some(p=>fuzzyMatch(p,tok)) || fuzzyMatch(proj.type,tok) || fuzzyMatch(proj.industry,tok)));
+  let isExact = matched.length>0;
+  
+  if(!isExact){
+    matched=state.projects.filter(proj=>tokens.some(tok=>proj.plugins.concat([proj.type,proj.industry]).some(p=>p.toLowerCase().includes(tok))));
+  }
+  
+  if(matched.length===0) return "Sorry, I couldn't find any project related to your request.";
+  let intro = isExact ? humanResponses[Math.floor(Math.random()*humanResponses.length)] + "<br><br>" : "No exact match, but these might be related:<br><br>";
+  let text=''; matched.forEach((proj,idx)=>{text+=`${idx+1}. ${proj.name}${showDetails?' | Plugins: '+proj.plugins.join(', ')+' | Type: '+proj.type+' | Industry: '+proj.industry:''}<br>`;});
+  return intro + text;
+}
+
+function removeTyping(){const prevTyping=document.getElementById('typing'); if(prevTyping) prevTyping.remove();}
+
+function handleSend(){
+  const q=input.value.trim(); if(!q) return;
+  addMsg(q,'user'); input.value=''; addTyping(); state.memory.push(q);
+  const delay=800+Math.random()*1200;
+  setTimeout(()=>{
+    const res=searchProjects(q); removeTyping();
+    addMsg(res);
+  },delay);
+}
+
+sendBtn.addEventListener('click',handleSend);
+input.addEventListener('keypress',e=>{if(e.key==='Enter') handleSend();});
+</script>
+</body>
+</html>
