@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Add new portfolio</title>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background: #f0f2f5;
+        padding: 20px;
+    }
+    h2 {
+        color: #333;
+    }
+    .controls {
+        margin-bottom: 20px;
+    }
+    button {
+        padding: 8px 15px;
+        margin-right: 10px;
+        border: none;
+        background: #4CAF50;
+        color: white;
+        cursor: pointer;
+        border-radius: 5px;
+        transition: background 0.2s;
+    }
+    button:hover { background: #45a049; }
+    button.clear { background: #f44336; }
+    .object-box {
+        background: white;
+        border-radius: 8px;
+        padding: 15px;
+        margin-bottom: 15px;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        position: relative;
+    }
+    .object-box h4 {
+        margin-top: 0;
+    }
+    .object-box label {
+        display: block;
+        margin-top: 10px;
+        font-weight: bold;
+    }
+    .object-box input {
+        width: 100%;
+        padding: 7px;
+        margin-top: 5px;
+        border-radius: 5px;
+        border: 1px solid #ccc;
+    }
+    .object-box button.remove {
+        position: absolute;
+        top: 15px;
+        right: 15px;
+        background: #f44336;
+        padding: 5px 10px;
+        font-size: 12px;
+    }
+    pre {
+        background: #1e1e1e;
+        color: #d4d4d4;
+        padding: 15px;
+        border-radius: 8px;
+        overflow-x: auto;
+    }
+</style>
+</head>
+<body>
+
+<h2>Visual to code generator</h2>
+
+<div class="controls">
+    <button onclick="addObject()">Add New Portfolio</button>
+    <button onclick="copyCode()">Copy Code</button>
+    <button class="clear" onclick="clearAll()">Clear All</button>
+</div>
+
+<div id="objects-container"></div>
+
+<pre id="output"></pre>
+
+<script>
+let objectCount = 0;
+let pluginHistory = [];
+
+// Load saved objects from localStorage
+window.onload = function() {
+    const saved = JSON.parse(localStorage.getItem('objects'));
+    if(saved && saved.length > 0){
+        saved.forEach(obj => addObject(obj));
+    } else {
+        addObject();
+    }
+}
+
+// Add new object
+function addObject(savedData={}) {
+    objectCount++;
+    const container = document.getElementById('objects-container');
+    const box = document.createElement('div');
+    box.className = 'object-box';
+    box.innerHTML = `
+        <h4>Object ${objectCount}</h4>
+        <button class="remove" onclick="removeObject(this)">Remove</button>
+        <label>Name (URL):</label>
+        <input type="text" class="name" placeholder="https://devsoffice.com" value="${savedData.name || ''}">
+        <label>Plugins (comma separated):</label>
+        <input list="plugin-list" type="text" class="plugins" placeholder="learndash, membership" value="${savedData.plugins || ''}">
+        <datalist id="plugin-list"></datalist>
+        <label>Type:</label>
+        <input type="text" class="type" placeholder="Education" value="${savedData.type || ''}">
+        <label>Industry:</label>
+        <input type="text" class="industry" placeholder="E-learning" value="${savedData.industry || ''}">
+    `;
+    container.appendChild(box);
+
+    const inputs = box.querySelectorAll('input');
+    inputs.forEach(input => input.addEventListener('input', updateCode));
+
+    const pluginInput = box.querySelector('.plugins');
+    pluginInput.addEventListener('input', updatePluginHistory);
+
+    updateCode();
+}
+
+// Remove object
+function removeObject(btn) {
+    btn.parentElement.remove();
+    updateCode();
+}
+
+// Update plugin history for suggestions
+function updatePluginHistory(e) {
+    const input = e.target.value.split(',').map(p => p.trim()).filter(Boolean);
+    input.forEach(p => {
+        if (!pluginHistory.includes(p)) {
+            pluginHistory.push(p);
+        }
+    });
+    updateDatalist();
+    updateCode();
+}
+
+// Update datalist options
+function updateDatalist() {
+    const datalist = document.querySelectorAll('datalist');
+    datalist.forEach(dl => {
+        dl.innerHTML = pluginHistory.map(p => `<option value="${p}">`).join('');
+    });
+}
+
+// Generate code & save to localStorage
+function updateCode() {
+    const boxes = document.querySelectorAll('.object-box');
+    const codes = [];
+    const objectsToSave = [];
+
+    boxes.forEach(box => {
+        const name = box.querySelector('.name').value.trim();
+        const plugins = box.querySelector('.plugins').value.trim().split(',').map(p => `'${p.trim()}'`).join(', ');
+        const type = box.querySelector('.type').value.trim();
+        const industry = box.querySelector('.industry').value.trim();
+
+        codes.push(`{
+    name: '${name}',
+    plugins: [${plugins}],
+    type: '${type}',
+    industry: '${industry}'
+},`);
+
+        // save object for localStorage
+        objectsToSave.push({
+            name, 
+            plugins: box.querySelector('.plugins').value.trim(),
+            type, 
+            industry
+        });
+    });
+
+    localStorage.setItem('objects', JSON.stringify(objectsToSave));
+    document.getElementById('output').textContent = codes.join('\n');
+}
+
+// Copy code to clipboard
+function copyCode() {
+    const text = document.getElementById('output').textContent;
+    navigator.clipboard.writeText(text).then(() => alert('Code copied!'));
+}
+
+// Clear all objects and localStorage
+function clearAll() {
+    if(confirm('Are you sure you want to clear all objects?')) {
+        localStorage.removeItem('objects');
+        document.getElementById('objects-container').innerHTML = '';
+        pluginHistory = [];
+        addObject();
+        updateDatalist();
+        updateCode();
+    }
+}
+</script>
+
+</body>
+</html>
