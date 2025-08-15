@@ -2,7 +2,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Add new portfolio</title>
+<title>Dynamic Code Generator</title>
 <style>
     body {
         font-family: Arial, sans-serif;
@@ -58,6 +58,10 @@
         padding: 5px 10px;
         font-size: 12px;
     }
+    .object-box button.copy-single {
+        margin-top: 10px;
+        background: #2196F3;
+    }
     pre {
         background: #1e1e1e;
         color: #d4d4d4;
@@ -69,12 +73,12 @@
 </head>
 <body>
 
-<h2>Visual to code generator</h2>
+<h2>Dynamic visual to code</h2>
 
 <div class="controls">
     <button onclick="addObject()">Add New Portfolio</button>
-    <button onclick="copyCode()">Copy Code</button>
     <button class="clear" onclick="clearAll()">Clear All</button>
+    <a href="index.html" class="clear">Go to ChatBOT</a>
 </div>
 
 <div id="objects-container"></div>
@@ -113,6 +117,7 @@ function addObject(savedData={}) {
         <input type="text" class="type" placeholder="Education" value="${savedData.type || ''}">
         <label>Industry:</label>
         <input type="text" class="industry" placeholder="E-learning" value="${savedData.industry || ''}">
+        <button class="copy-single" onclick="copySingleCode(this)">Copy Code</button>
     `;
     container.appendChild(box);
 
@@ -183,10 +188,28 @@ function updateCode() {
     document.getElementById('output').textContent = codes.join('\n');
 }
 
-// Copy code to clipboard
+// Copy code for all objects
 function copyCode() {
     const text = document.getElementById('output').textContent;
-    navigator.clipboard.writeText(text).then(() => alert('Code copied!'));
+    navigator.clipboard.writeText(text).then(() => alert('All code copied!'));
+}
+
+// Copy code for a single object
+function copySingleCode(btn) {
+    const box = btn.parentElement;
+    const name = box.querySelector('.name').value.trim();
+    const plugins = box.querySelector('.plugins').value.trim().split(',').map(p => `'${p.trim()}'`).join(', ');
+    const type = box.querySelector('.type').value.trim();
+    const industry = box.querySelector('.industry').value.trim();
+
+    const code = `{
+    name: '${name}',
+    plugins: [${plugins}],
+    type: '${type}',
+    industry: '${industry}'
+},`;
+
+    navigator.clipboard.writeText(code).then(() => alert('Object code copied!'));
 }
 
 // Clear all objects and localStorage
