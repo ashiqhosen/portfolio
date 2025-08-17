@@ -37,15 +37,17 @@ body{margin:0;font-family:ui-sans-serif, system-ui, Segoe UI, Roboto, Helvetica,
 .loader{width:28px;height:28px;border-radius:50%;border:3px solid rgba(255,255,255,.12);border-top-color:var(--accent);animation:spin 1s linear infinite;margin-right:8px;}
 @keyframes spin{to{transform:rotate(360deg);}}
 .flex{display:flex;align-items:center;gap:8px;}
-.copy-btn{background:var(--accent);color:#07203b;border:none;border-radius:6px;padding:4px 8px;font-size:12px;cursor:pointer;margin-top:8px;display:inline-block;}
+.copy-btn{background:var(--accent);color:#07203b;border:none;border-radius:6px;padding:4px 8px;font-size:12px;cursor:pointer;margin-top:8px;display:inline-block; margin-right: 5px;}
 .devs-my-about *{margin: 0px;}
 .devs-my-about{text-align:center;border: 1px solid #07305b; border-radius: 10px; padding: 20px;margin-bottom: 15px;}
 .devs-my-about img{width: 80px; height: 80px; object-fit: cover;border-radius: 50%;margin-bottom: 10px;}
-.devs-my-about .contact-btn{padding: 6px 16px; border-radius: 6px; background: #07305b; color: #6ca4ff; border: 1px solid #07305b; font-size: 13px; font-weight: 500; margin-top: 10px; cursor: pointer; display: inline-block;text-decoration: none;}
+.devs-my-about .contact-btn{
+  text-decoration: none;color: #6ca4ff;background-color: transparent;border: 1px solid #6ca4ff;
+  border-radius: 5px;padding: 5px 15px 7px 15px;display: inline-block;line-height: 1em;margin-top: 10px;text-transform: uppercase;transition: 0.3s;
+}
 .devs-my-about .contact-btn:hover{color: #fff;background-color: #6ca4ff;border: 1px solid #6ca4ff;}
 .devs-my-about:hover{border: 1px solid #6ca4ff;}
 html,body{overflow-y: hidden;}
-.status-check{font-size:13px;margin-left:8px;}
 </style>
 </head>
 <body>
@@ -80,14 +82,88 @@ html,body{overflow-y: hidden;}
 </main>
 </div>
 
+<!-- Password Modal -->
+<div id="password-modal" style="display:none;position:fixed;top:0;left:0;width:100vw;height:100vh;background:rgba(0,0,0,0.7);z-index:9999;align-items:center;justify-content:center;">
+  <div style="background:#fff;padding:32px 24px;border-radius:12px;box-shadow:0 8px 32px rgba(0,0,0,0.2);max-width:350px;margin:auto;text-align:center;">
+    <h3 style="margin-bottom:18px;color:#07305b;">Enter Password</h3>
+    <!-- Replace the password input and add the toggle icon -->
+    <input type="password" id="password-input" style="width:90%;padding:10px;border-radius:8px;border:1px solid #ccc;margin-bottom:16px;" placeholder="Password">
+    <span id="toggle-password" style="cursor:pointer;position:fixed;font-size:18px;color:#6ca4ff;margin-top: 4px;">👁️</span>
+    <br>
+    <button id="password-submit" style="padding:8px 18px;border-radius:8px;background:#6ca4ff;color:#fff;border:none;font-weight:700;cursor:pointer;">Access</button>
+    <div id="password-error" style="color:#ff4d4d;margin-top:12px;display:none;">Incorrect password. Try again.</div>
+  </div>
+</div>
+
 <script type="module">
 import {projects} from './projects.js';
 import {synonyms} from './synonyms.js';
 
+// --- Password Protection ---
+const ACCESS_KEY = 'portfolio_access';
+const PASSWORD = 'ashiq2025'; // Change to your desired password
+
+function showPasswordModal() {
+  document.getElementById('password-modal').style.display = 'flex';
+  document.body.style.overflow = 'hidden';
+  document.getElementById('password-input').focus();
+}
+function hidePasswordModal() {
+  document.getElementById('password-modal').style.display = 'none';
+  document.body.style.overflow = '';
+}
+function checkAccess() {
+  if (sessionStorage.getItem(ACCESS_KEY) === 'true') return true;
+  return false;
+}
+function grantAccess() {
+  sessionStorage.setItem(ACCESS_KEY, 'true');
+  hidePasswordModal();
+}
+function denyAccess() {
+  sessionStorage.removeItem(ACCESS_KEY);
+  window.location.href = 'no-access.html';
+}
+
+// On page load, check access
+if (!checkAccess()) {
+  showPasswordModal();
+}
+
+// Password modal logic
+document.getElementById('password-submit').onclick = function() {
+  const val = document.getElementById('password-input').value;
+  if (val === PASSWORD) {
+    grantAccess();
+  } else {
+    document.getElementById('password-error').style.display = 'block';
+    document.getElementById('password-input').value = '';
+    document.getElementById('password-input').focus();
+  }
+};
+document.getElementById('password-input').addEventListener('keydown', function(e){
+  if(e.key === 'Enter') document.getElementById('password-submit').click();
+});
+// Toggle password visibility
+const passwordInput = document.getElementById('password-input');
+const togglePassword = document.getElementById('toggle-password');
+togglePassword.onclick = function() {
+  if (passwordInput.type === 'password') {
+    passwordInput.type = 'text';
+    togglePassword.textContent = '🙈';
+  } else {
+    passwordInput.type = 'password';
+    togglePassword.textContent = '👁️';
+  }
+};
+
+// --- Chatbot Logic (existing code) ---
 const state = {projects, synonyms, memory:[]};
 const chat = document.getElementById('chat');
 const input = document.getElementById('q');
 const sendBtn = document.getElementById('send');
+
+let lastQuery = '';
 
 const humanResponses = [
   "Here are some websites you might like:",
@@ -105,24 +181,35 @@ function addMsg(content,who='bot'){
   chat.appendChild(el);
   chat.scrollTop=chat.scrollHeight;
 
-  // Add copy button for bot messages
+  // Add copy and regenerate buttons for bot messages
   if(who==='bot'){
     const btn=document.createElement('button');
     btn.className='copy-btn';
     btn.textContent='Copy';
     el.appendChild(btn);
 
+    const regenBtn=document.createElement('button');
+    regenBtn.className='copy-btn';
+    regenBtn.textContent='Regenerate';
+    el.appendChild(regenBtn);
+
     btn.addEventListener('click',()=>{
-      // Clone the content to safely remove status spans
       const tempDiv = document.createElement('div');
       tempDiv.innerHTML = content;
-      // Remove all status-check spans
       tempDiv.querySelectorAll('.status-check').forEach(el => el.remove());
-      // Convert <br> to newlines and strip HTML tags
       const plainText = tempDiv.innerHTML.replace(/<br>/g, '\n').replace(/<[^>]+>/g, '');
       navigator.clipboard.writeText(plainText);
       btn.textContent='Copied!';
       setTimeout(()=>{btn.textContent='Copy';},1000);
+    });
+
+    regenBtn.addEventListener('click',()=>{
+      if(!lastQuery) return;
+      addTyping();
+      setTimeout(()=>{
+        const res = searchProjects(lastQuery);
+        addMsg(res,'bot');
+      },700);
     });
   }
 
@@ -277,6 +364,7 @@ function checkSiteStatus(url, statusSpan){
 function handleSend(){
   const val = input.value.trim();
   if(!val) return;
+  lastQuery = val; // Save last query
   addMsg(val,'user');
   addTyping();
   setTimeout(()=>{
@@ -290,6 +378,15 @@ sendBtn.addEventListener('click',handleSend);
 input.addEventListener('keydown',e=>{
   if(e.key==='Enter') handleSend();
 });
+// Remove this event listener for the footer regen button:
+// document.getElementById('regen').addEventListener('click',()=>{
+//   if(!lastQuery) return;
+//   addTyping();
+//   setTimeout(()=>{
+//     const res = searchProjects(lastQuery);
+//     addMsg(res,'bot');
+//   },700);
+// });
 
 // Initial greeting
 addMsg(`👋 Hi there! Type a <b>plugin, site type, industry, or a number</b> (like <b>5</b> or <b>10</b>) to get random website links.
@@ -301,7 +398,6 @@ addMsg(`👋 Hi there! Type a <b>plugin, site type, industry, or a number</b> (l
 - Give me 7 corporate websites
 - List 10 websites using WooCommerce
 - Find sites in the education or corporate industry
-
 
 ✨ Tips:
 - Combine <b>plugin + industry + number</b> for precise results.
