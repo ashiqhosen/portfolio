@@ -405,6 +405,23 @@ addMsg(`👋 Hi there! Type a <b>plugin, site type, industry, or a number</b> (l
 - Numbers return <b>random websites</b>, so results change every time.
 `, 'bot');
 
+// Disable right-click context menu
+document.addEventListener('contextmenu', function(e) {
+  e.preventDefault();
+});
+
+// Disable F12, Ctrl+Shift+I, Ctrl+Shift+J, Ctrl+U, Ctrl+Shift+C, Ctrl+Alt+I, etc.
+document.addEventListener('keydown', function(e) {
+  // F12
+  if (e.key === 'F12') e.preventDefault();
+  // Ctrl+Shift+I/J/C/U
+  if ((e.ctrlKey && e.shiftKey && ['I','J','C'].includes(e.key)) ||
+      (e.ctrlKey && e.key === 'U') ||
+      (e.metaKey && e.altKey && e.key === 'I')) {
+    e.preventDefault();
+  }
+});
+
 </script>
 </body>
 </html>
