@@ -1,12 +1,19 @@
 export const projects = [
-    {
-        name:'https://devsoffice.com',
-        plugins:['learndash','membership','woocommerce'],
-        type:'Education', industry:'E-learning'
-    },
-    {
-        name:'https://dev.com',
-        plugins:['tutor lms','memberpress','store engine'],
-        type:'Education', industry:'E-learning'
-    },
+  {name: "EduLearn Academy", url: "https://edulearnacademy.com", plugins:["learndash","membership"], type:"education", industry:"e-learning"},
+  {name: "Smart Courses", url: "https://smartcourses.net", plugins:["tutorlms","woocommerce"], type:"education", industry:"training"},
+  {name: "Shopify Gear", url: "https://shopifygear.com", plugins:["woocommerce"], type:"shop", industry:"ecommerce"},
+  {name: "Foodie Hub", url: "https://foodiehub.org", plugins:["woocommerce","booking"], type:"restaurant", industry:"food"},
+  {name: "Tech Store", url: "https://techstore.io", plugins:["woocommerce"], type:"shop", industry:"electronics"},
+  {name: "Fit Life", url: "https://fitlifeclub.com", plugins:["membership","woocommerce"], type:"fitness", industry:"health"},
+  {name: "Travel World", url: "https://travelworld.net", plugins:["booking"], type:"travel", industry:"tourism"},
+  {name: "BizCorp", url: "https://bizcorp.co", plugins:["corporate"], type:"business", industry:"corporate"},
+  {name: "Creative Hub", url: "https://creativehub.io", plugins:["elementor","woocommerce"], type:"portfolio", industry:"creative"},
+  {name: "EduPro", url: "https://edupro.org", plugins:["learndash","woocommerce"], type:"education", industry:"professional"},
+  {name: "Book My Event", url: "https://bookmyevent.net", plugins:["event","woocommerce"], type:"event", industry:"entertainment"},
+  {name: "Wellness Life", url: "https://wellnesslife.org", plugins:["membership"], type:"fitness", industry:"health"},
+  {name: "Game Zone", url: "https://gamezone.io", plugins:["woocommerce"], type:"shop", industry:"gaming"},
+  {name: "Legal Advisor", url: "https://legaladvisor.co", plugins:["corporate"], type:"business", industry:"legal"},
+  {name: "Music Beats", url: "https://musicbeats.net", plugins:["membership","woocommerce"], type:"media", industry:"music"},
+  {name: "EduMentor", url: "https://edumentor.ac", plugins:["tutorlms"], type:"education", industry:"coaching"},
+  {name: "BuildPro", url: "https://buildpro.co", plugins:["corporate"], type:"business", industry:"construction"},
 ];
