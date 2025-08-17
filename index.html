@@ -4,53 +4,13 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Get instant portfolio - Powerfull ChatBOT</title>
-  <link rel="icon" type="image/x-icon" href="activateashiq.png">
-
-
-
-<script>
-document.addEventListener("DOMContentLoaded", function() {
-    const PASSWORD = "devOfficeBD"; // আপনার পাসওয়ার্ড
-
-    // Check sessionStorage
-    if(sessionStorage.getItem('access_granted') !== 'true') {
-        const userInput = prompt("Enter the password to access this page:");
-        if(userInput !== PASSWORD) {
-            alert("Incorrect password! You cannot access this page.");
-            window.location.href = "no-access.html"; // Redirect if wrong
-            return;
-        }
-        // Correct password → save in sessionStorage
-        sessionStorage.setItem('access_granted', 'true');
-    }
-
-    // Disable right click & context menu
-    document.addEventListener('contextmenu', function(e) {
-        e.preventDefault();
-        alert("Right click is disabled on this page.");
-    });
-
-    // Disable specific keyboard shortcuts
-    document.addEventListener('keydown', function(e) {
-        if(e.key === "F12" ||
-           (e.ctrlKey && e.shiftKey && (e.key === "I" || e.key === "J" || e.key === "C")) ||
-           (e.ctrlKey && e.key === "U") ||
-           (e.ctrlKey && e.shiftKey && e.key === "K")) {
-            e.preventDefault();
-            alert("This action is disabled!");
-        }
-    });
-});
-</script>
-
-
-
-
-
-
-
-
+<link rel="icon" type="image/x-icon" href="activateashiq.png">
 <style>
+.msg.bot a {
+    color: #bccef3 !important;
+}
+
+
 :root { --bg:#0b1220; --panel:#111a2b; --muted:#8aa0b2; --text:#e6edf3; --accent:#6ca4ff; --shadow:0 10px 30px rgba(0,0,0,.25); --radius:16px;}
 *{box-sizing:border-box;}
 body{margin:0;font-family:ui-sans-serif, system-ui, Segoe UI, Roboto, Helvetica, Arial; background:var(--bg); color:var(--text);}
@@ -78,58 +38,29 @@ body{margin:0;font-family:ui-sans-serif, system-ui, Segoe UI, Roboto, Helvetica,
 @keyframes spin{to{transform:rotate(360deg);}}
 .flex{display:flex;align-items:center;gap:8px;}
 .copy-btn{background:var(--accent);color:#07203b;border:none;border-radius:6px;padding:4px 8px;font-size:12px;cursor:pointer;margin-top:8px;display:inline-block;}
-.devs-my-about *{
-  margin: 0px;
-}
+.devs-my-about *{margin: 0px;}
 .devs-my-about{text-align:center;border: 1px solid #07305b; border-radius: 10px; padding: 20px;margin-bottom: 15px;}
 .devs-my-about img{width: 80px; height: 80px; object-fit: cover;border-radius: 50%;margin-bottom: 10px;}
-.devs-my-about .contact-btn{
-  text-decoration: none;
-  color: #6ca4ff;
-  background-color: transparent;
-  border: 1px solid #6ca4ff;
-  border-radius: 5px;
-  padding: 5px 15px 7px 15px;
-  display: inline-block;
-  line-height: 1em;
-  margin-top: 10px;
-  text-transform: uppercase;
-  transition: 0.3s;
-}
-.devs-my-about .contact-btn:hover{
-  text-decoration: none;
-  color: #fff;
-  background-color: #6ca4ff;
-  border: 1px solid #6ca4ff;
-  border-radius: 5px;
-  padding: 5px 15px 7px 15px;
-  display: inline-block;
-  line-height: 1em;
-  margin-top: 10px;
-  text-transform: uppercase;
-  transition: 0.3s;
-}
-.devs-my-about:hover{
-  border: 1px solid #6ca4ff;
-  
-}
-html,body{
-  overflow-y: hidden;
-}
+.devs-my-about .contact-btn{padding: 6px 16px; border-radius: 6px; background: #07305b; color: #6ca4ff; border: 1px solid #07305b; font-size: 13px; font-weight: 500; margin-top: 10px; cursor: pointer; display: inline-block;text-decoration: none;}
+.devs-my-about .contact-btn:hover{color: #fff;background-color: #6ca4ff;border: 1px solid #6ca4ff;}
+.devs-my-about:hover{border: 1px solid #6ca4ff;}
+html,body{overflow-y: hidden;}
+.status-check{font-size:13px;margin-left:8px;}
 </style>
 </head>
 <body>
 <div class="container">
 <aside class="sidebar card">
 <div class="devs-my-about">
-  <img src="ashiq.png" alt="">
-  <h3>Ashiq Hosen</h3>
-  <a class="contact-btn" href="http://wa.me/8801728827863" target="_blank" rel="noopener noreferrer">Contact</a>
-  <a class="contact-btn" href="add.html" target="_blank" rel="noopener noreferrer">Add new portfolio</a>
-  <a class="contact-btn" href="keyword.html" target="_blank" rel="noopener noreferrer">Add new keywords</a>
+<img src="activateashiq.png" alt="Ashiq">
+<h3>Ashiqur Rahman</h3>
+<p>WordPress & LMS Expert</p>
+<a href="mailto:ashiq@devsoffice.com" class="contact-btn">Contact</a>
+<a target="_blank" href="https://ashiqhosen.github.io/portfolio/add.html" class="contact-btn">New Portfolio</a>
+<a target="_blank" href="https://ashiqhosen.github.io/portfolio/keyword.html" class="contact-btn">New Portfolio</a>
 </div>
 <h2>How to ask</h2>
-<div class="tip">You can search by Plugins, Website Type, or Website Industry/Category, with <b>searching by Plugins</b> being the most appropriate option.
+<div class="tip">Ask by plugin, type, industry, or site. Or type number like <b>5</b>, <b>7</b>, <b>10</b> to see random websites.
 <div class="badge">membership</div>
 <div class="badge">learndash</div>
 <div class="badge">education</div>
@@ -143,7 +74,7 @@ html,body{
 </div>
 <div class="chat-body" id="chat"></div>
 <div class="chat-footer">
-<input id="q" class="input" placeholder="Type plugin, site, type, or industry..."/>
+<input id="q" class="input" placeholder="Type plugin, site, type, industry or number..."/>
 <button class="btn" id="send">Send</button>
 </div>
 </main>
@@ -159,60 +90,225 @@ const input = document.getElementById('q');
 const sendBtn = document.getElementById('send');
 
 const humanResponses = [
-  "Hmm, found these projects for you:",
-  "Here’s what I could find:",
-  "I think these match your request:",
-  "Take a look at these:",
-  "These projects seem relevant:"
+  "Here are some websites you might like:",
+  "These match your query:",
+  "Portfolio results:",
+  "Random selection for you:"
 ];
 
+// Helper functions
 function addMsg(content,who='bot'){
-  const prevTyping=document.getElementById('typing'); if(prevTyping) prevTyping.remove();
-  const el=document.createElement('div'); el.className='msg '+who;
-  const div=document.createElement('div'); div.innerHTML=content;
-  const btn=document.createElement('button'); btn.className='copy-btn'; btn.textContent='Copy';
-  btn.addEventListener('click',()=>{navigator.clipboard.writeText(content.replace(/<br>/g,'\n')); btn.textContent='Copied!'; setTimeout(()=>{btn.textContent='Copy';},1000);});
-  el.appendChild(div); el.appendChild(btn); chat.appendChild(el); chat.scrollTop=chat.scrollHeight;
+  removeTyping();
+  const el=document.createElement('div');
+  el.className='msg '+who;
+  el.innerHTML=content;
+  chat.appendChild(el);
+  chat.scrollTop=chat.scrollHeight;
+
+  // Add copy button for bot messages
+  if(who==='bot'){
+    const btn=document.createElement('button');
+    btn.className='copy-btn';
+    btn.textContent='Copy';
+    el.appendChild(btn);
+
+    btn.addEventListener('click',()=>{
+      // Clone the content to safely remove status spans
+      const tempDiv = document.createElement('div');
+      tempDiv.innerHTML = content;
+      // Remove all status-check spans
+      tempDiv.querySelectorAll('.status-check').forEach(el => el.remove());
+      // Convert <br> to newlines and strip HTML tags
+      const plainText = tempDiv.innerHTML.replace(/<br>/g, '\n').replace(/<[^>]+>/g, '');
+      navigator.clipboard.writeText(plainText);
+      btn.textContent='Copied!';
+      setTimeout(()=>{btn.textContent='Copy';},1000);
+    });
+  }
+
+  // After rendering, check status for URLs
+  checkAllStatuses(el);
 }
 
-function addTyping(){const el=document.createElement('div'); el.className='msg bot'; el.id='typing'; el.innerHTML='<div class="flex"><div class="loader"></div><span class="muted">Typing…</span></div>'; chat.appendChild(el); chat.scrollTop=chat.scrollHeight;}
+function addTyping(){
+  const el=document.createElement('div');
+  el.className='msg bot';
+  el.id='typing';
+  el.innerHTML='<div class="flex"><div class="loader"></div><span class="muted">Typing…</span></div>';
+  chat.appendChild(el);
+  chat.scrollTop=chat.scrollHeight;
+}
+function removeTyping(){
+  const prevTyping=document.getElementById('typing');
+  if(prevTyping) prevTyping.remove();
+}
 
-function expandSynonyms(token){for(const key in synonyms){if(synonyms[key].includes(token)) return key;}return token;}
+// Synonym & fuzzy
+function expandSynonyms(token){
+  for(const key in synonyms){
+    if(synonyms[key].includes(token)) return key;
+  }
+  return token;
+}
+function fuzzyMatch(str,token){
+  str=str.toLowerCase(); token=token.toLowerCase();
+  if(str.includes(token)) return true;
+  return str.includes(token.slice(0,Math.floor(token.length/2)));
+}
 
-function fuzzyMatch(str,token){str=str.toLowerCase(); token=token.toLowerCase(); if(str.includes(token)) return true; return str.includes(token.slice(0,Math.floor(token.length/2)));}
+// Number detection
+function getNumberFromQuery(query) {
+  const match = query.match(/(\d+)\s*(টি|ta|টি)?/);
+  if (match) return parseInt(match[1]);
+  return null;
+}
 
+// Shuffle array
+function shuffle(array) {
+  for (let i = array.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [array[i], array[j]] = [array[j], array[i]];
+  }
+  return array;
+}
+
+// Main search
 function searchProjects(query){
   const tokens=query.toLowerCase().split(/\s+/).map(expandSynonyms);
   const showDetails=tokens.includes('show');
-  let matched=state.projects.filter(proj=>tokens.some(tok=>fuzzyMatch(proj.name,tok) || proj.plugins.some(p=>fuzzyMatch(p,tok)) || fuzzyMatch(proj.type,tok) || fuzzyMatch(proj.industry,tok)));
+  let matched=state.projects.filter(proj=>
+    tokens.some(tok=>
+      fuzzyMatch(proj.name,tok) ||
+      proj.plugins.some(p=>fuzzyMatch(p,tok)) ||
+      fuzzyMatch(proj.type,tok) ||
+      fuzzyMatch(proj.industry,tok)
+    )
+  );
   let isExact = matched.length>0;
-  
+
   if(!isExact){
-    matched=state.projects.filter(proj=>tokens.some(tok=>proj.plugins.concat([proj.type,proj.industry]).some(p=>p.toLowerCase().includes(tok))));
+    matched=state.projects.filter(proj=>
+      tokens.some(tok=>
+        proj.plugins.concat([proj.type,proj.industry]).some(p=>p.toLowerCase().includes(tok))
+      )
+    );
   }
-  
+
+  // সংখ্যা বের করুন
+  const num = getNumberFromQuery(query);
+  if (num) {
+    matched = shuffle([...matched]).slice(0, num);
+    if (matched.length === 0) return "Sorry, I couldn't find any project related to your request.";
+    let text = '';
+    matched.forEach((proj, idx) => {
+      text += `${idx+1}. <a href="${proj.url}" target="_blank">${proj.url}</a> <span class="status-check" id="status-${proj.url.replace(/[^a-zA-Z0-9]/g,'')}">Checking…</span><br>`;
+    });
+    return `Here are ${matched.length} random websites:<br><br>` + text;
+  }
+
   if(matched.length===0) return "Sorry, I couldn't find any project related to your request.";
   let intro = isExact ? humanResponses[Math.floor(Math.random()*humanResponses.length)] + "<br><br>" : "No exact match, but these might be related:<br><br>";
-  let text=''; matched.forEach((proj,idx)=>{text+=`${idx+1}. ${proj.name}${showDetails?' | Plugins: '+proj.plugins.join(', ')+' | Type: '+proj.type+' | Industry: '+proj.industry:''}<br>`;});
+  let text='';
+  matched.forEach((proj,idx)=>{
+    text+=`${idx+1}. <a href="${proj.url}" target="_blank">${proj.url}</a> <span class="status-check" id="status-${proj.url.replace(/[^a-zA-Z0-9]/g,'')}">Checking…</span><br>`;
+  });
   return intro + text;
 }
 
-function removeTyping(){const prevTyping=document.getElementById('typing'); if(prevTyping) prevTyping.remove();}
+// Status check logic
+function checkAllStatuses(container){
+  // Find all anchor tags with URLs
+  const anchors = container.querySelectorAll('a[href^="http"]');
+  anchors.forEach(anchor=>{
+    const url = anchor.getAttribute('href');
+    const statusSpan = container.querySelector(`#status-${url.replace(/[^a-zA-Z0-9]/g,'')}`);
+    if(statusSpan){
+      checkSiteStatus(url, statusSpan);
+    }
+  });
+}
 
+// Use favicon trick for status check (frontend only)
+function checkSiteStatus(url, statusSpan){
+  // Try favicon first
+  const faviconUrl = url.replace(/\/$/,'') + '/favicon.ico';
+  let done = false;
+  const timeout = setTimeout(()=>{
+    if(!done){
+      statusSpan.textContent = 'Offline / Maintenance ❌';
+      statusSpan.style.color = '#ff4d4d';
+      done = true;
+    }
+  }, 5000);
+
+  const img = new Image();
+  img.onload = function(){
+    if(!done){
+      statusSpan.textContent = 'Live ✅';
+      statusSpan.style.color = '#4caf50';
+      clearTimeout(timeout);
+      done = true;
+    }
+  };
+  img.onerror = function(){
+    // Try fetch HEAD as fallback (may fail due to CORS)
+    fetch(url, {method:'HEAD',mode:'no-cors'})
+      .then(()=>{
+        if(!done){
+          statusSpan.textContent = 'Live ✅';
+          statusSpan.style.color = '#4caf50';
+          clearTimeout(timeout);
+          done = true;
+        }
+      })
+      .catch(()=>{
+        if(!done){
+          statusSpan.textContent = 'Offline / Maintenance ❌';
+          statusSpan.style.color = '#ff4d4d';
+          clearTimeout(timeout);
+          done = true;
+        }
+      });
+  };
+  img.src = faviconUrl;
+}
+
+// Chatbot UI logic
 function handleSend(){
-  const q=input.value.trim(); if(!q) return;
-  addMsg(q,'user'); input.value=''; addTyping(); state.memory.push(q);
-  const delay=800+Math.random()*1200;
+  const val = input.value.trim();
+  if(!val) return;
+  addMsg(val,'user');
+  addTyping();
   setTimeout(()=>{
-    const res=searchProjects(q); removeTyping();
-    addMsg(res);
-  },delay);
+    const res = searchProjects(val);
+    addMsg(res,'bot');
+  },700);
+  input.value='';
 }
 
 sendBtn.addEventListener('click',handleSend);
-input.addEventListener('keypress',e=>{if(e.key==='Enter') handleSend();});
+input.addEventListener('keydown',e=>{
+  if(e.key==='Enter') handleSend();
+});
+
+// Initial greeting
+addMsg(`👋 Hi there! Type a <b>plugin, site type, industry, or a number</b> (like <b>5</b> or <b>10</b>) to get random website links.
+
+💡 Examples you can try:
+
+- Show me 5 education websites using LearnDash
+- I want 3 membership sites built with WordPress
+- Give me 7 corporate websites
+- List 10 websites using WooCommerce
+- Find sites in the education or corporate industry
+
+
+✨ Tips:
+- Combine <b>plugin + industry + number</b> for precise results.
+- Add the word <b>“show”</b> for full details about websites (plugins, type, industry).
+- Numbers return <b>random websites</b>, so results change every time.
+`, 'bot');
+
 </script>
 </body>
 </html>
-
-
