@@ -77,7 +77,7 @@
 
 <div class="controls">
     <button onclick="addObject()">Add New Portfolio</button>
-    <button onclick="copyCode()">Copy All Code</button> <!-- Added Copy All Code -->
+    <button onclick="copyCode()">Copy All Code</button>
     <button class="clear" onclick="clearAll()">Clear All</button>
     <a href="index.html" class="clear">Go to ChatBOT</a>
 </div>
@@ -109,8 +109,10 @@ function addObject(savedData={}) {
     box.innerHTML = `
         <h4>Object ${objectCount}</h4>
         <button class="remove" onclick="removeObject(this)">Remove</button>
-        <label>Name (URL):</label>
-        <input type="text" class="name" placeholder="https://devsoffice.com" value="${savedData.name || ''}">
+        <label>Name:</label>
+        <input type="text" class="name" placeholder="EduLearn Academy" value="${savedData.name || ''}">
+        <label>URL:</label>
+        <input type="text" class="url" placeholder="https://edulearnacademy.com" value="${savedData.url || ''}">
         <label>Plugins (comma separated):</label>
         <input list="plugin-list" type="text" class="plugins" placeholder="learndash, membership" value="${savedData.plugins || ''}">
         <datalist id="plugin-list"></datalist>
@@ -165,28 +167,25 @@ function updateCode() {
 
     boxes.forEach(box => {
         const name = box.querySelector('.name').value.trim();
-        const plugins = box.querySelector('.plugins').value.trim().split(',').map(p => `'${p.trim()}'`).join(', ');
+        const url = box.querySelector('.url').value.trim();
+        const pluginsArr = box.querySelector('.plugins').value.trim().split(',').map(p => `'${p.trim()}'`).filter(p=>p!=="''");
         const type = box.querySelector('.type').value.trim();
         const industry = box.querySelector('.industry').value.trim();
 
-        codes.push(`{
-    name: '${name}',
-    plugins: [${plugins}],
-    type: '${type}',
-    industry: '${industry}'
-},`);
+        codes.push(`  {name: "${name}", url: "${url}", plugins:[${pluginsArr.join(',')}], type:"${type}", industry:"${industry}"},`);
 
         // save object for localStorage
         objectsToSave.push({
-            name, 
+            name,
+            url,
             plugins: box.querySelector('.plugins').value.trim(),
-            type, 
+            type,
             industry
         });
     });
 
     localStorage.setItem('objects', JSON.stringify(objectsToSave));
-    document.getElementById('output').textContent = codes.join('\n');
+    document.getElementById('output').textContent = `export const projects = [\n${codes.join('\n')}\n];`;
 }
 
 // Copy code for all objects
@@ -199,12 +198,14 @@ function copyCode() {
 function copySingleCode(btn) {
     const box = btn.parentElement;
     const name = box.querySelector('.name').value.trim();
+    const url = box.querySelector('.url').value.trim();
     const plugins = box.querySelector('.plugins').value.trim().split(',').map(p => `'${p.trim()}'`).join(', ');
     const type = box.querySelector('.type').value.trim();
     const industry = box.querySelector('.industry').value.trim();
 
     const code = `{
     name: '${name}',
+    url: '${url}',
     plugins: [${plugins}],
     type: '${type}',
     industry: '${industry}'
@@ -219,6 +220,7 @@ function clearAll() {
         localStorage.removeItem('objects');
         document.getElementById('objects-container').innerHTML = '';
         pluginHistory = [];
+        objectCount = 0;
         addObject();
         updateDatalist();
         updateCode();
